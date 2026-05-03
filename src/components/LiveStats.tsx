@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Github, Code2, Users, Zap } from 'lucide-react';
+import { Github, Code2, Users, Zap, TrendingUp } from 'lucide-react';
 
 interface GitHubStats {
   repositories: number;
@@ -15,10 +15,32 @@ interface ContributionDay {
   count: number;
 }
 
+interface RepoCommit {
+  date: string;
+  count: number;
+}
+
+const calculateLongestStreak = (contributions: ContributionDay[]): number => {
+  let maxStreak = 0;
+  let currentStreak = 0;
+  
+  contributions.forEach(day => {
+    if (day.count > 0) {
+      currentStreak++;
+      maxStreak = Math.max(maxStreak, currentStreak);
+    } else {
+      currentStreak = 0;
+    }
+  });
+  
+  return maxStreak;
+};
+
 const LiveStats = () => {
   const [stats, setStats] = useState<GitHubStats | null>(null);
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [loading, setLoading] = useState(true);
+  const [maxContributions, setMaxContributions] = useState(0);
 
   useEffect(() => {
     const fetchGitHubData = async () => {
@@ -27,8 +49,8 @@ const LiveStats = () => {
         const userResponse = await fetch('https://api.github.com/users/amirsiddiquiin');
         const userData = await userResponse.json();
 
-        // Fetch repos data for stars count
-        const reposResponse = await fetch('https://api.github.com/users/amirsiddiquiin/repos?per_page=100');
+        // Fetch repos data
+        const reposResponse = await fetch('https://api.github.com/users/amirsiddiquiin/repos?per_page=100&sort=updated');
         const reposData = await reposResponse.json();
         const totalStars = Array.isArray(reposData) 
           ? reposData.reduce((sum: number, repo: any) => sum + (repo.stargazers_count || 0), 0)
@@ -36,24 +58,56 @@ const LiveStats = () => {
 
         setStats({
           repositories: userData.public_repos || 0,
-          commits: 0, // Approximate from activity
+          commits: 0,
           followers: userData.followers || 0,
           following: userData.following || 0,
           publicRepos: userData.public_repos || 0,
           totalStars: totalStars,
         });
 
-        // Generate mock contribution data for last year
-        const contributionData: ContributionDay[] = [];
+        // Fetch real commit data from repositories
+        const contributionMap = new Map<string, number>();
         const today = new Date();
+        
+        // Initialize all days in the last year
         for (let i = 364; i >= 0; i--) {
           const date = new Date(today);
           date.setDate(date.getDate() - i);
-          contributionData.push({
-            date: date.toISOString().split('T')[0],
-            count: Math.floor(Math.random() * 10),
-          });
+          const dateStr = date.toISOString().split('T')[0];
+          contributionMap.set(dateStr, 0);
         }
+
+        // Fetch commits from each repository
+        if (Array.isArray(reposData)) {
+          for (const repo of reposData.slice(0, 10)) { // Check last 10 repos
+            try {
+              const commitsResponse = await fetch(
+                `https://api.github.com/repos/amirsiddiquiin/${repo.name}/commits?per_page=100&since=${new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString()}`
+              );
+              const commitsData = await commitsResponse.json();
+              
+              if (Array.isArray(commitsData)) {
+                commitsData.forEach((commit: any) => {
+                  if (commit.commit?.author?.date) {
+                    const date = commit.commit.author.date.split('T')[0];
+                    const current = contributionMap.get(date) || 0;
+                    contributionMap.set(date, current + 1);
+                  }
+                });
+              }
+            } catch (err) {
+              console.error(`Error fetching commits for ${repo.name}:`, err);
+            }
+          }
+        }
+
+        // Convert map to sorted array
+        const contributionData: ContributionDay[] = Array.from(contributionMap.entries())
+          .map(([date, count]) => ({ date, count }))
+          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+        const maxCount = Math.max(...contributionData.map(d => d.count), 1);
+        setMaxContributions(maxCount);
         setContributions(contributionData);
         setLoading(false);
       } catch (error) {
@@ -66,16 +120,29 @@ const LiveStats = () => {
   }, []);
 
   const getContributionColor = (count: number) => {
-    if (count === 0) return 'bg-secondary/30';
-    if (count < 3) return 'bg-green-900/40';
-    if (count < 6) return 'bg-green-700/60';
-    if (count < 9) return 'bg-green-600/80';
-    return 'bg-green-500';
+    if (count === 0) return 'bg-slate-700/30 hover:bg-slate-600/40';
+    if (count <= Math.max(1, maxContributions * 0.25)) return 'bg-emerald-900/50 hover:bg-emerald-800/60';
+    if (count <= Math.max(1, maxContributions * 0.5)) return 'bg-emerald-700/70 hover:bg-emerald-600/80';
+    if (count <= Math.max(1, maxContributions * 0.75)) return 'bg-emerald-600/90 hover:bg-emerald-500';
+    return 'bg-emerald-500 hover:bg-emerald-400';
   };
 
-  // Get weeks for contribution graph (52 weeks)
+  // Get months and weeks for full year visualization
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthStarts: { [key: string]: number } = {};
+  
+  // Calculate which week each month starts
+  contributions.forEach((day, index) => {
+    const date = new Date(day.date);
+    const month = months[date.getMonth()];
+    if (!monthStarts[month]) {
+      monthStarts[month] = Math.floor(index / 7);
+    }
+  });
+
+  // Organize data into weeks (columns) and days (rows)
   const weeks = [];
-  for (let i = 0; i < 52; i++) {
+  for (let i = 0; i < Math.ceil(contributions.length / 7); i++) {
     const week = [];
     for (let j = 0; j < 7; j++) {
       const index = i * 7 + j;
@@ -83,6 +150,11 @@ const LiveStats = () => {
     }
     weeks.push(week);
   }
+
+  // Get total contributions
+  const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0);
+  const daysActive = contributions.filter(day => day.count > 0).length;
+  const longestStreak = calculateLongestStreak(contributions);
 
   const statCards = [
     {
@@ -177,11 +249,11 @@ const LiveStats = () => {
             <div className="mt-6 flex items-center gap-4 text-xs text-muted-foreground">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-3 h-3 rounded-sm bg-secondary/30" />
-                <div className="w-3 h-3 rounded-sm bg-green-900/40" />
-                <div className="w-3 h-3 rounded-sm bg-green-700/60" />
-                <div className="w-3 h-3 rounded-sm bg-green-600/80" />
-                <div className="w-3 h-3 rounded-sm bg-green-500" />
+                <div className="w-3 h-3 rounded-sm bg-slate-700/30" />
+                <div className="w-3 h-3 rounded-sm bg-emerald-900/50" />
+                <div className="w-3 h-3 rounded-sm bg-emerald-700/70" />
+                <div className="w-3 h-3 rounded-sm bg-emerald-600/90" />
+                <div className="w-3 h-3 rounded-sm bg-emerald-500" />
               </div>
               <span>More</span>
             </div>
@@ -207,8 +279,8 @@ const LiveStats = () => {
             
             <div className="rounded-xl bg-card border border-border/60 p-6">
               <h4 className="font-semibold mb-2">Streak</h4>
-              <p className="text-3xl font-bold text-primary mb-2">24</p>
-              <p className="text-xs text-muted-foreground">day current streak</p>
+              <p className="text-3xl font-bold text-primary mb-2">{longestStreak}</p>
+              <p className="text-xs text-muted-foreground">day longest streak</p>
             </div>
           </div>
         </div>
