@@ -222,65 +222,118 @@ const LiveStats = () => {
 
           {/* Contribution Graph */}
           <div className="rounded-xl border border-border/60 bg-card p-8 fade-in delay-400">
-            <h3 className="font-semibold text-lg mb-6">GitHub Contributions - Last Year</h3>
+            <h3 className="font-semibold text-lg mb-8">GitHub Contributions - Last Year</h3>
             
             {loading ? (
-              <div className="flex items-center justify-center h-32">
+              <div className="flex items-center justify-center h-48">
                 <p className="text-muted-foreground">Loading contribution data...</p>
               </div>
             ) : (
-              <div className="overflow-x-auto pb-4">
-                <div className="flex gap-1 min-w-max">
-                  {weeks.map((week, weekIndex) => (
-                    <div key={weekIndex} className="flex flex-col gap-1">
-                      {week.map((day, dayIndex) => (
-                        <div
-                          key={`${weekIndex}-${dayIndex}`}
-                          className={`w-3 h-3 rounded-sm ${getContributionColor(day?.count || 0)} transition-all hover:scale-125 cursor-pointer`}
-                          title={day ? `${day.count} contributions on ${day.date}` : 'No data'}
-                        />
-                      ))}
+              <div className="space-y-4">
+                {/* Month Labels */}
+                <div className="flex gap-1 ml-12">
+                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, idx) => (
+                    <div key={month} className="text-xs text-muted-foreground font-medium w-16">
+                      {month}
                     </div>
                   ))}
                 </div>
+
+                {/* Contribution Grid */}
+                <div className="flex gap-1 overflow-x-auto pb-4">
+                  {/* Day Labels */}
+                  <div className="flex flex-col gap-1 pt-2">
+                    <div className="text-xs text-muted-foreground font-medium h-4" />
+                    {['Mon', 'Wed', 'Fri'].map((day) => (
+                      <div key={day} className="text-xs text-muted-foreground font-medium h-4 w-8">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Weeks and Days Grid */}
+                  <div className="flex gap-1">
+                    {weeks.map((week, weekIndex) => (
+                      <div key={weekIndex} className="flex flex-col gap-1">
+                        {week.map((day, dayIndex) => {
+                          const dayDate = day ? new Date(day.date) : null;
+                          const dayName = dayDate?.toLocaleString('en-US', { weekday: 'short' });
+                          
+                          return (
+                            <div
+                              key={`${weekIndex}-${dayIndex}`}
+                              className={`w-4 h-4 rounded-sm transition-all duration-200 cursor-pointer transform hover:scale-110 ${getContributionColor(day?.count || 0)} shadow-sm hover:shadow-md`}
+                              title={day ? `${day.count} contribution${day.count !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', { 
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}` : 'No data'}
+                            />
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Legend */}
+                <div className="mt-8 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground">Less</span>
+                    <div className="flex gap-1">
+                      <div className="w-4 h-4 rounded-sm bg-slate-700/30" title="0 contributions" />
+                      <div className="w-4 h-4 rounded-sm bg-emerald-900/50" title="1-25% contributions" />
+                      <div className="w-4 h-4 rounded-sm bg-emerald-700/70" title="26-50% contributions" />
+                      <div className="w-4 h-4 rounded-sm bg-emerald-600/90" title="51-75% contributions" />
+                      <div className="w-4 h-4 rounded-sm bg-emerald-500" title="76%+ contributions" />
+                    </div>
+                    <span className="text-xs text-muted-foreground">More</span>
+                  </div>
+                  <a 
+                    href="https://github.com/amirsiddiquiin" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-xs text-primary hover:underline font-medium"
+                  >
+                    View on GitHub →
+                  </a>
+                </div>
               </div>
             )}
-
-            <div className="mt-6 flex items-center gap-4 text-xs text-muted-foreground">
-              <span>Less</span>
-              <div className="flex gap-1">
-                <div className="w-3 h-3 rounded-sm bg-slate-700/30" />
-                <div className="w-3 h-3 rounded-sm bg-emerald-900/50" />
-                <div className="w-3 h-3 rounded-sm bg-emerald-700/70" />
-                <div className="w-3 h-3 rounded-sm bg-emerald-600/90" />
-                <div className="w-3 h-3 rounded-sm bg-emerald-500" />
-              </div>
-              <span>More</span>
-            </div>
           </div>
 
           {/* Stats Summary */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 fade-in delay-500">
             <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2">Total Activity</h4>
+              <h4 className="font-semibold mb-2 flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-emerald-500" />
+                Total Activity
+              </h4>
               <p className="text-3xl font-bold text-primary mb-2">
-                {contributions.reduce((sum, day) => sum + day.count, 0)}
+                {totalContributions.toLocaleString()}
               </p>
-              <p className="text-xs text-muted-foreground">contributions last year</p>
+              <p className="text-xs text-muted-foreground">contributions in the past year</p>
             </div>
             
             <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2">Consistency</h4>
+              <h4 className="font-semibold mb-2 flex items-center gap-2">
+                <Code2 className="h-5 w-5 text-blue-500" />
+                Consistency
+              </h4>
               <p className="text-3xl font-bold text-primary mb-2">
-                {Math.round((contributions.filter(c => c.count > 0).length / 365) * 100)}%
+                {daysActive}
               </p>
-              <p className="text-xs text-muted-foreground">days active</p>
+              <p className="text-xs text-muted-foreground">{Math.round((daysActive / 365) * 100)}% of days active</p>
             </div>
             
             <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2">Streak</h4>
+              <h4 className="font-semibold mb-2 flex items-center gap-2">
+                <Zap className="h-5 w-5 text-yellow-500" />
+                Longest Streak
+              </h4>
               <p className="text-3xl font-bold text-primary mb-2">{longestStreak}</p>
-              <p className="text-xs text-muted-foreground">day longest streak</p>
+              <p className="text-xs text-muted-foreground">consecutive days with contributions</p>
             </div>
           </div>
         </div>
