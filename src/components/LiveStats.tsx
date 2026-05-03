@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Github, Code2, Users, Zap, TrendingUp } from 'lucide-react';
+import { Github, Code2, Users, Zap, TrendingUp, Calendar } from 'lucide-react';
 
 interface GitHubStats {
   repositories: number;
-  commits: number;
   followers: number;
   following: number;
   publicRepos: number;
@@ -11,11 +10,6 @@ interface GitHubStats {
 }
 
 interface ContributionDay {
-  date: string;
-  count: number;
-}
-
-interface RepoCommit {
   date: string;
   count: number;
 }
@@ -58,31 +52,30 @@ const LiveStats = () => {
 
         setStats({
           repositories: userData.public_repos || 0,
-          commits: 0,
           followers: userData.followers || 0,
           following: userData.following || 0,
           publicRepos: userData.public_repos || 0,
           totalStars: totalStars,
         });
 
-        // Fetch real commit data from repositories
+        // Fetch real commit data
         const contributionMap = new Map<string, number>();
         const today = new Date();
+        const oneYearAgo = new Date(today);
+        oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
         
-        // Initialize all days in the last year
-        for (let i = 364; i >= 0; i--) {
-          const date = new Date(today);
-          date.setDate(date.getDate() - i);
-          const dateStr = date.toISOString().split('T')[0];
+        // Initialize all days
+        for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
+          const dateStr = d.toISOString().split('T')[0];
           contributionMap.set(dateStr, 0);
         }
 
-        // Fetch commits from each repository
+        // Fetch commits from repos
         if (Array.isArray(reposData)) {
-          for (const repo of reposData.slice(0, 10)) { // Check last 10 repos
+          for (const repo of reposData.slice(0, 15)) {
             try {
               const commitsResponse = await fetch(
-                `https://api.github.com/repos/amirsiddiquiin/${repo.name}/commits?per_page=100&since=${new Date(new Date().setFullYear(new Date().getFullYear() - 1)).toISOString()}`
+                `https://api.github.com/repos/amirsiddiquiin/${repo.name}/commits?per_page=100&since=${oneYearAgo.toISOString()}`
               );
               const commitsData = await commitsResponse.json();
               
@@ -101,7 +94,7 @@ const LiveStats = () => {
           }
         }
 
-        // Convert map to sorted array
+        // Convert to array and sort
         const contributionData: ContributionDay[] = Array.from(contributionMap.entries())
           .map(([date, count]) => ({ date, count }))
           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -120,156 +113,139 @@ const LiveStats = () => {
   }, []);
 
   const getContributionColor = (count: number) => {
-    if (count === 0) return 'bg-slate-700/30 hover:bg-slate-600/40';
-    if (count <= Math.max(1, maxContributions * 0.25)) return 'bg-emerald-900/50 hover:bg-emerald-800/60';
-    if (count <= Math.max(1, maxContributions * 0.5)) return 'bg-emerald-700/70 hover:bg-emerald-600/80';
-    if (count <= Math.max(1, maxContributions * 0.75)) return 'bg-emerald-600/90 hover:bg-emerald-500';
-    return 'bg-emerald-500 hover:bg-emerald-400';
+    if (count === 0) return 'bg-slate-800/40';
+    const percentage = count / maxContributions;
+    if (percentage < 0.25) return 'bg-emerald-900/50';
+    if (percentage < 0.5) return 'bg-emerald-800/60';
+    if (percentage < 0.75) return 'bg-emerald-700/75';
+    return 'bg-emerald-500/90';
   };
 
-  // Get months and weeks for full year visualization
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthStarts: { [key: string]: number } = {};
-  
-  // Calculate which week each month starts
-  contributions.forEach((day, index) => {
-    const date = new Date(day.date);
-    const month = months[date.getMonth()];
-    if (!monthStarts[month]) {
-      monthStarts[month] = Math.floor(index / 7);
-    }
-  });
-
-  // Organize data into weeks (columns) and days (rows)
+  // Group contributions by weeks
   const weeks = [];
-  for (let i = 0; i < Math.ceil(contributions.length / 7); i++) {
-    const week = [];
-    for (let j = 0; j < 7; j++) {
-      const index = i * 7 + j;
-      week.push(contributions[index]);
-    }
-    weeks.push(week);
+  for (let i = 0; i < contributions.length; i += 7) {
+    weeks.push(contributions.slice(i, i + 7));
   }
 
-  // Get total contributions
+  // Calculate stats
   const totalContributions = contributions.reduce((sum, day) => sum + day.count, 0);
   const daysActive = contributions.filter(day => day.count > 0).length;
   const longestStreak = calculateLongestStreak(contributions);
+  const avgDaily = daysActive > 0 ? (totalContributions / daysActive).toFixed(1) : 0;
 
   const statCards = [
     {
       icon: <Github className="h-6 w-6" />,
       label: 'Public Repos',
       value: stats?.publicRepos || 0,
-      color: 'from-blue-500/20 to-blue-600/20',
+      color: 'bg-blue-500/20',
+      textColor: 'text-blue-400',
     },
     {
       icon: <Code2 className="h-6 w-6" />,
       label: 'Total Stars',
       value: stats?.totalStars || 0,
-      color: 'from-yellow-500/20 to-yellow-600/20',
+      color: 'bg-yellow-500/20',
+      textColor: 'text-yellow-400',
     },
     {
       icon: <Users className="h-6 w-6" />,
       label: 'Followers',
       value: stats?.followers || 0,
-      color: 'from-purple-500/20 to-purple-600/20',
+      color: 'bg-purple-500/20',
+      textColor: 'text-purple-400',
     },
     {
-      icon: <Zap className="h-6 w-6" />,
-      label: 'Active',
-      value: 'Yes',
-      color: 'from-green-500/20 to-green-600/20',
+      icon: <TrendingUp className="h-6 w-6" />,
+      label: 'Contributions',
+      value: totalContributions,
+      color: 'bg-emerald-500/20',
+      textColor: 'text-emerald-400',
     },
   ];
 
   return (
     <section id="stats" className="py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
           <div className="text-center mb-16">
             <p className="text-sm font-mono text-primary mb-3 fade-in">// LIVE STATS</p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight fade-in delay-100">
-              Activity & Reach
+              Activity & Contributions
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto fade-in delay-200">
-              Real-time GitHub activity and contribution metrics from the last year
+              Real-time GitHub metrics and contribution history over the last year
             </p>
           </div>
 
-          {/* Stats Cards */}
+          {/* Quick Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 fade-in delay-300">
             {statCards.map((card, index) => (
               <div
                 key={index}
-                className={`relative overflow-hidden rounded-xl border border-border/60 p-6 hover-lift group`}
+                className={`relative rounded-lg border border-border/60 ${card.color} backdrop-blur-sm p-6 hover:border-border transition-all duration-300 group hover-lift`}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                      {card.icon}
-                    </div>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-3 uppercase tracking-wide">{card.label}</p>
+                    <p className={`text-3xl font-bold ${card.textColor}`}>
+                      {typeof card.value === 'number' ? card.value.toLocaleString() : card.value}
+                    </p>
                   </div>
-                  <p className="text-xs text-muted-foreground mb-1">{card.label}</p>
-                  <p className="text-2xl font-bold">
-                    {typeof card.value === 'number' ? card.value.toLocaleString() : card.value}
-                  </p>
+                  <div className={`${card.color} rounded-lg p-3 group-hover:scale-110 transition-transform`}>
+                    {card.icon}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Contribution Graph */}
-          <div className="rounded-xl border border-border/60 bg-card p-8 fade-in delay-400">
-            <h3 className="font-semibold text-lg mb-8">GitHub Contributions - Last Year</h3>
-            
+          <div className="rounded-lg border border-border/60 bg-card/50 backdrop-blur-sm p-8 fade-in delay-400 mb-8">
+            <div className="flex items-center gap-3 mb-8">
+              <Calendar className="h-5 w-5 text-emerald-400" />
+              <h3 className="text-xl font-semibold">Contribution Activity</h3>
+              <span className="text-xs text-muted-foreground ml-auto">Last 52 weeks</span>
+            </div>
+
             {loading ? (
-              <div className="flex items-center justify-center h-48">
-                <p className="text-muted-foreground">Loading contribution data...</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {/* Month Labels */}
-                <div className="flex gap-1 ml-12">
-                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, idx) => (
-                    <div key={month} className="text-xs text-muted-foreground font-medium w-16">
-                      {month}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Contribution Grid */}
-                <div className="flex gap-1 overflow-x-auto pb-4">
-                  {/* Day Labels */}
-                  <div className="flex flex-col gap-1 pt-2">
-                    <div className="text-xs text-muted-foreground font-medium h-4" />
-                    {['Mon', 'Wed', 'Fri'].map((day) => (
-                      <div key={day} className="text-xs text-muted-foreground font-medium h-4 w-8">
-                        {day}
-                      </div>
-                    ))}
+              <div className="flex items-center justify-center py-16">
+                <div className="text-center">
+                  <div className="animate-spin mb-4">
+                    <Github className="h-8 w-8 text-primary" />
                   </div>
-
-                  {/* Weeks and Days Grid */}
-                  <div className="flex gap-1">
+                  <p className="text-muted-foreground">Fetching your contributions...</p>
+                </div>
+              </div>
+            ) : weeks.length > 0 ? (
+              <div className="space-y-6">
+                {/* Main Grid */}
+                <div className="overflow-x-auto">
+                  <div className="grid gap-2 p-2" style={{ 
+                    gridTemplateColumns: `repeat(${weeks.length}, minmax(0, 1fr))`,
+                    minWidth: 'fit-content'
+                  }}>
                     {weeks.map((week, weekIndex) => (
                       <div key={weekIndex} className="flex flex-col gap-1">
                         {week.map((day, dayIndex) => {
-                          const dayDate = day ? new Date(day.date) : null;
-                          const dayName = dayDate?.toLocaleString('en-US', { weekday: 'short' });
+                          const date = new Date(day.date);
+                          const isToday = new Date().toDateString() === date.toDateString();
                           
                           return (
                             <div
                               key={`${weekIndex}-${dayIndex}`}
-                              className={`w-4 h-4 rounded-sm transition-all duration-200 cursor-pointer transform hover:scale-110 ${getContributionColor(day?.count || 0)} shadow-sm hover:shadow-md`}
-                              title={day ? `${day.count} contribution${day.count !== 1 ? 's' : ''} on ${new Date(day.date).toLocaleDateString('en-US', { 
-                                weekday: 'long',
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                              })}` : 'No data'}
-                            />
+                              className={`group relative w-4 h-4 rounded cursor-pointer transition-all duration-200 ${getContributionColor(day.count)} ${isToday ? 'ring-2 ring-primary' : 'hover:scale-125 hover:shadow-lg'}`}
+                            >
+                              {/* Tooltip */}
+                              <div className="invisible group-hover:visible absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap z-10">
+                                {day.count} contribution{day.count !== 1 ? 's' : ''} on {date.toLocaleDateString('en-US', { 
+                                  weekday: 'short',
+                                  month: 'short',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                            </div>
                           );
                         })}
                       </div>
@@ -278,62 +254,63 @@ const LiveStats = () => {
                 </div>
 
                 {/* Legend */}
-                <div className="mt-8 flex items-center justify-between">
+                <div className="flex items-center justify-between pt-6 border-t border-border/40">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-muted-foreground">Less</span>
+                    <span className="text-xs text-muted-foreground font-medium">Less</span>
                     <div className="flex gap-1">
-                      <div className="w-4 h-4 rounded-sm bg-slate-700/30" title="0 contributions" />
-                      <div className="w-4 h-4 rounded-sm bg-emerald-900/50" title="1-25% contributions" />
-                      <div className="w-4 h-4 rounded-sm bg-emerald-700/70" title="26-50% contributions" />
-                      <div className="w-4 h-4 rounded-sm bg-emerald-600/90" title="51-75% contributions" />
-                      <div className="w-4 h-4 rounded-sm bg-emerald-500" title="76%+ contributions" />
+                      <div className="w-3 h-3 rounded bg-slate-800/40" />
+                      <div className="w-3 h-3 rounded bg-emerald-900/50" />
+                      <div className="w-3 h-3 rounded bg-emerald-800/60" />
+                      <div className="w-3 h-3 rounded bg-emerald-700/75" />
+                      <div className="w-3 h-3 rounded bg-emerald-500/90" />
                     </div>
-                    <span className="text-xs text-muted-foreground">More</span>
+                    <span className="text-xs text-muted-foreground font-medium">More</span>
                   </div>
-                  <a 
-                    href="https://github.com/amirsiddiquiin" 
-                    target="_blank" 
+                  <a
+                    href="https://github.com/amirsiddiquiin"
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-primary hover:underline font-medium"
+                    className="text-xs text-primary hover:text-primary/80 font-medium flex items-center gap-1 transition-colors"
                   >
-                    View on GitHub →
+                    View full profile
+                    <span>→</span>
                   </a>
                 </div>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No contribution data available</p>
               </div>
             )}
           </div>
 
-          {/* Stats Summary */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 fade-in delay-500">
-            <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-emerald-500" />
-                Total Activity
-              </h4>
-              <p className="text-3xl font-bold text-primary mb-2">
-                {totalContributions.toLocaleString()}
-              </p>
-              <p className="text-xs text-muted-foreground">contributions in the past year</p>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 fade-in delay-500">
+            <div className="rounded-lg border border-border/60 bg-card/50 backdrop-blur-sm p-6 hover:border-emerald-500/40 transition-colors">
+              <div className="flex items-center gap-2 mb-3">
+                <TrendingUp className="h-5 w-5 text-emerald-400" />
+                <h4 className="font-semibold">Total Contributions</h4>
+              </div>
+              <p className="text-4xl font-bold text-emerald-400 mb-2">{totalContributions.toLocaleString()}</p>
+              <p className="text-xs text-muted-foreground">in the last year</p>
             </div>
-            
-            <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2 flex items-center gap-2">
-                <Code2 className="h-5 w-5 text-blue-500" />
-                Consistency
-              </h4>
-              <p className="text-3xl font-bold text-primary mb-2">
-                {daysActive}
-              </p>
-              <p className="text-xs text-muted-foreground">{Math.round((daysActive / 365) * 100)}% of days active</p>
+
+            <div className="rounded-lg border border-border/60 bg-card/50 backdrop-blur-sm p-6 hover:border-blue-500/40 transition-colors">
+              <div className="flex items-center gap-2 mb-3">
+                <Calendar className="h-5 w-5 text-blue-400" />
+                <h4 className="font-semibold">Days Active</h4>
+              </div>
+              <p className="text-4xl font-bold text-blue-400 mb-2">{daysActive}</p>
+              <p className="text-xs text-muted-foreground">{Math.round((daysActive / 365) * 100)}% of the year</p>
             </div>
-            
-            <div className="rounded-xl bg-card border border-border/60 p-6">
-              <h4 className="font-semibold mb-2 flex items-center gap-2">
-                <Zap className="h-5 w-5 text-yellow-500" />
-                Longest Streak
-              </h4>
-              <p className="text-3xl font-bold text-primary mb-2">{longestStreak}</p>
-              <p className="text-xs text-muted-foreground">consecutive days with contributions</p>
+
+            <div className="rounded-lg border border-border/60 bg-card/50 backdrop-blur-sm p-6 hover:border-yellow-500/40 transition-colors">
+              <div className="flex items-center gap-2 mb-3">
+                <Zap className="h-5 w-5 text-yellow-400" />
+                <h4 className="font-semibold">Longest Streak</h4>
+              </div>
+              <p className="text-4xl font-bold text-yellow-400 mb-2">{longestStreak}</p>
+              <p className="text-xs text-muted-foreground">consecutive days</p>
             </div>
           </div>
         </div>
