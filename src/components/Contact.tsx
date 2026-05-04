@@ -1,5 +1,4 @@
-
-import { Mail, MapPin, Phone, Github, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, Github, Send } from "lucide-react";
 
 const contactLinks = [
   {
@@ -34,12 +33,15 @@ const Contact = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-sm font-mono text-primary mb-3 fade-in">// CONTACT</p>
+            <p className="text-sm font-mono text-primary mb-3 fade-in">
+              // CONTACT
+            </p>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight fade-in delay-100">
               Let's connect
             </h2>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto fade-in delay-200">
-              Open to collaborations, freelance work, and full-time opportunities.
+              Open to collaborations, freelance work, and full-time
+              opportunities.
             </p>
           </div>
 
@@ -54,12 +56,16 @@ const Contact = () => {
                     {item.icon}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground mb-0.5">{item.label}</p>
+                    <p className="text-xs text-muted-foreground mb-0.5">
+                      {item.label}
+                    </p>
                     {item.href ? (
-                      <a 
+                      <a
                         href={item.href}
                         className="text-sm font-medium hover:text-primary transition-colors truncate block"
-                        {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        {...(item.external
+                          ? { target: "_blank", rel: "noopener noreferrer" }
+                          : {})}
                       >
                         {item.value}
                       </a>
@@ -70,7 +76,7 @@ const Contact = () => {
                 </div>
               ))}
             </div>
-            
+
             <div className="rounded-xl bg-card border border-border/60 p-6 fade-in delay-200">
               <h3 className="font-semibold mb-4">Send a message</h3>
               <form className="space-y-3">
