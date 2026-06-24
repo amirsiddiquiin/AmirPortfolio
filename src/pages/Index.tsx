@@ -37,6 +37,16 @@ const Index = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const updateSpotlight = (event: MouseEvent) => {
+      document.documentElement.style.setProperty('--spot-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--spot-y', `${event.clientY}px`);
+    };
+
+    window.addEventListener('mousemove', updateSpotlight);
+    return () => window.removeEventListener('mousemove', updateSpotlight);
+  }, []);
+
   return (
     <div className="relative">
       <Header />

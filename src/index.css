@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @layer base {
+  :root {
+    --spot-x: 50vw;
+    --spot-y: 18vh;
+  }
+
   :root {
     --background: 220 20% 97%;
     --foreground: 220 25% 10%;
@@ -148,6 +153,39 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Space Grotesk', system-ui, sans-serif;
+    background-image:
+      radial-gradient(circle at top, hsl(var(--primary) / 0.09), transparent 32%),
+      radial-gradient(circle at bottom right, hsl(var(--accent) / 0.06), transparent 26%);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(900px circle at var(--spot-x) var(--spot-y), hsl(var(--primary) / 0.08), transparent 42%),
+      radial-gradient(700px circle at 18% 24%, hsl(var(--accent) / 0.06), transparent 40%),
+      radial-gradient(500px circle at 85% 72%, hsl(var(--primary) / 0.05), transparent 34%);
+    opacity: 0.55;
+    filter: saturate(1.15);
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.025;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.9) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.9) 1px, transparent 1px);
+    background-size: 6rem 6rem;
+    mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -187,6 +225,83 @@
 
   .gradient-text {
     @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .panel-3d {
+    transform-style: preserve-3d;
+    box-shadow:
+      0 20px 60px -30px hsl(var(--foreground) / 0.5),
+      inset 0 1px 0 hsl(var(--card-foreground) / 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .panel-3d:hover {
+    transform: translateY(-4px) rotateX(2deg) rotateY(-2deg);
+  }
+
+  .panel-3d::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(135deg, hsl(var(--primary) / 0.18), transparent 26%),
+      linear-gradient(315deg, hsl(var(--accent) / 0.14), transparent 24%);
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+
+  .panel-3d::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at top left, hsl(var(--primary) / 0.18), transparent 35%),
+      radial-gradient(circle at bottom right, hsl(var(--accent) / 0.12), transparent 30%);
+    opacity: 0.22;
+  }
+
+  .mesh-overlay {
+    background-image:
+      linear-gradient(hsl(var(--border) / 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--border) / 0.2) 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+  }
+
+  .tilt-card {
+    transform-style: preserve-3d;
+    transition: transform 350ms ease, box-shadow 350ms ease, border-color 350ms ease;
+  }
+
+  .tilt-card:hover {
+    transform: perspective(1400px) translateY(-6px) rotateX(4deg) rotateY(-4deg);
+  }
+
+  .orbit-ring {
+    animation: spin-slow 18s linear infinite;
+  }
+
+  .orbit-ring-reverse {
+    animation: spin-reverse 28s linear infinite;
+  }
+
+  .drift {
+    animation: drift-slow 8s ease-in-out infinite;
+  }
+
+  .scan-lines {
+    background-image: linear-gradient(
+      to bottom,
+      transparent,
+      transparent 48%,
+      hsl(var(--foreground) / 0.06) 50%,
+      transparent 52%,
+      transparent
+    );
+    background-size: 100% 0.35rem;
   }
 }
 
@@ -242,6 +357,21 @@
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 20px -5px hsl(var(--glow) / 0.2); }
   50% { box-shadow: 0 0 30px -5px hsl(var(--glow) / 0.4); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes drift-slow {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
 }
 
 .fade-in {

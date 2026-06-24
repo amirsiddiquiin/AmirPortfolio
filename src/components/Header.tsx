@@ -10,6 +10,7 @@ const navItems = [
   { href: "#projects", label: "Projects" },
   { href: "#skills", label: "Skills" },
   { href: "#education", label: "Education" },
+  { href: "#achievements", label: "Achievements" },
   { href: "#contact", label: "Contact" }
 ];
 
@@ -26,7 +27,7 @@ const Header = () => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 py-4 transition-all duration-300 ${
-        isScrolled ? 'glass shadow-sm' : 'bg-transparent'
+        isScrolled ? 'glass shadow-lg shadow-black/5' : 'bg-transparent'
       }`}
     >
       <div className="container mx-auto flex items-center justify-between">
@@ -40,7 +41,7 @@ const Header = () => {
             <a
               key={item.href}
               href={item.href}
-              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-lg hover:bg-secondary/50"
+              className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors rounded-xl hover:bg-secondary/60"
             >
               {item.label}
             </a>
@@ -54,7 +55,7 @@ const Header = () => {
           <ThemeToggle />
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-foreground hover:bg-secondary/80 rounded-lg transition-all"
+            className="p-2 text-foreground hover:bg-secondary/80 rounded-xl transition-all"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -63,7 +64,7 @@ const Header = () => {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-lg pt-20">
+        <div className="md:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-xl pt-20">
           <nav className="container mx-auto py-8 flex flex-col items-center gap-4">
             {navItems.map((item) => (
               <a

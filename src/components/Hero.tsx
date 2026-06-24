@@ -1,67 +1,255 @@
+import { motion } from 'framer-motion';
+import { ArrowDown, Download, Github, Mail, Sparkles } from 'lucide-react';
+import { profile } from '@/data/profile';
 
-import { ArrowDown, Download } from 'lucide-react';
+const riseUp = {
+  initial: { opacity: 0, y: 28, filter: 'blur(8px)' },
+  animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+};
+
+const panelMotion = {
+  initial: { opacity: 0, y: 26, scale: 0.98 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+};
+
+const floatMotion = {
+  animate: {
+    y: [0, -10, 0],
+    rotate: [0, 0.8, 0],
+    transition: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+  },
+};
 
 const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-20 pb-16 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden"
     >
-      {/* Background grid pattern */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.3)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.3)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        <div className="absolute inset-0 bg-gradient-radial from-primary/8 via-transparent to-transparent" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-32 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
+        <div className="absolute top-24 -left-24 h-80 w-80 rounded-full bg-accent/20 blur-[110px]" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-cyan-400/10 blur-[120px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.18),transparent_42%),radial-gradient(circle_at_bottom_right,hsl(var(--accent)/0.12),transparent_35%)]" />
       </div>
-      
+
       <div className="container mx-auto relative z-10">
-        <div className="flex flex-col items-center text-center max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-primary/20 bg-primary/5 text-sm font-medium text-primary slide-up">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            Available for opportunities
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight slide-up delay-100">
-            Amir
-            <span className="gradient-text"> Siddiqui</span>
-          </h1>
+        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] px-4 sm:px-6 lg:px-8">
+          <motion.div
+            variants={panelMotion}
+            initial="initial"
+            animate="animate"
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative panel-3d tilt-card rounded-[2.5rem] border border-border/60 bg-background/88 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl shadow-black/5"
+          >
+            <motion.div
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.7, delay: 0.05 }}
+              className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-primary/20 bg-background/60 backdrop-blur-md text-sm font-medium text-primary shadow-lg shadow-primary/5"
+            >
+              <Sparkles className="h-4 w-4" />
+              <span>{profile.availability}</span>
+            </motion.div>
 
-          <p className="text-lg font-mono text-primary/80 mb-4 slide-up delay-200">
-            Senior Frontend Engineer
-          </p>
-          
-          <p className="text-lg text-muted-foreground mb-10 max-w-2xl slide-up delay-300 leading-relaxed">
-            4+ years building high-performance <span className="text-foreground font-medium">Web3</span> & <span className="text-foreground font-medium">DeFi</span> interfaces using <span className="text-foreground font-medium">React</span>, <span className="text-foreground font-medium">TypeScript</span>, and <span className="text-foreground font-medium">Web3.js</span>. Specializing in wallet integrations, multichain architectures, and scalable component systems.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4 slide-up delay-400">
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25"
+            <motion.h1
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.75, delay: 0.12 }}
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-balance"
             >
-              Get in touch
-            </a>
-            
-            <a
-              href="#experience"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-border bg-card text-foreground font-medium transition-all hover:scale-105 hover:border-primary/30"
-            >
-              View experience
-            </a>
+              <span className="block text-muted-foreground font-medium text-xl sm:text-2xl mb-4">
+                {profile.title}
+              </span>
+              Amir
+              <span className="gradient-text"> Siddiqui</span>
+            </motion.h1>
 
-            <a
-              href="/Amir_Siddiqui_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 justify-center px-6 py-3 rounded-lg border border-primary/20 text-primary font-medium transition-all hover:scale-105 hover:bg-primary/5"
+            <motion.p
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.75, delay: 0.18 }}
+              className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-8"
             >
-              <Download className="h-4 w-4" />
-              Resume
-            </a>
-          </div>
+              {profile.headline}
+            </motion.p>
+
+            <motion.p
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.75, delay: 0.24 }}
+              className="text-base sm:text-lg text-muted-foreground/90 max-w-2xl leading-relaxed mb-10"
+            >
+              {profile.summary}
+            </motion.p>
+
+            <motion.div
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.75, delay: 0.3 }}
+              className="flex flex-wrap gap-4"
+            >
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-primary text-primary-foreground font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/25"
+              >
+                <Mail className="h-4 w-4" />
+                Start a conversation
+              </a>
+
+              <a
+                href="#experience"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-xl border border-border/80 bg-background/70 backdrop-blur-md text-foreground font-medium transition-all duration-300 hover:-translate-y-1 hover:border-primary/40"
+              >
+                View experience
+              </a>
+
+              <a
+                href={profile.contact.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 justify-center px-6 py-3 rounded-xl border border-primary/20 bg-primary/5 text-primary font-medium transition-all duration-300 hover:-translate-y-1 hover:bg-primary/10"
+              >
+                <Download className="h-4 w-4" />
+                Resume
+              </a>
+            </motion.div>
+
+            <motion.div
+              variants={riseUp}
+              initial="initial"
+              animate="animate"
+              transition={{ duration: 0.75, delay: 0.36 }}
+              className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground"
+            >
+              <a href={profile.contact.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 backdrop-blur-md hover:text-foreground transition-colors">
+                <Github className="h-4 w-4" />
+                GitHub
+              </a>
+              <a href={profile.contact.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 backdrop-blur-md hover:text-foreground transition-colors">
+                LinkedIn
+              </a>
+              <span className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                Remote-first, product-minded frontend work
+              </span>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            variants={panelMotion}
+            initial="initial"
+            animate="animate"
+            transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="relative min-h-[700px] lg:min-h-[720px]"
+          >
+            <div className="absolute -inset-6 rounded-[2.75rem] bg-gradient-to-br from-primary/15 via-transparent to-accent/15 blur-3xl" />
+            <div
+              className="relative h-full rounded-[2.5rem] border border-white/10 text-white backdrop-blur-2xl shadow-2xl shadow-primary/20 overflow-hidden panel-3d tilt-card"
+              style={{
+                background:
+                  'radial-gradient(circle at top, rgba(74, 115, 255, 0.3), rgba(8, 15, 28, 0.98) 48%)',
+              }}
+            >
+              <div className="absolute inset-0 mesh-overlay opacity-20" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(96,165,250,0.3),transparent_28%),radial-gradient(circle_at_20%_20%,rgba(129,140,248,0.2),transparent_22%),radial-gradient(circle_at_80%_78%,rgba(96,165,250,0.14),transparent_22%)]" />
+              <div className="absolute inset-0 scan-lines opacity-10" />
+
+              <div className="absolute left-10 top-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-medium text-white/80 backdrop-blur-md">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)]" />
+                live avatar render
+              </div>
+
+              <div className="absolute right-10 top-10 rounded-2xl border border-white/10 bg-white/10 px-3 py-2 text-xs font-mono text-white/80 backdrop-blur-md">
+                UI / UX / Web3
+              </div>
+
+              <div className="absolute inset-x-0 top-24 flex justify-center">
+                <motion.div
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative h-[440px] w-[360px]"
+                >
+                  <div className="absolute inset-x-1/2 top-4 h-44 w-36 -translate-x-1/2 rounded-[2.2rem] bg-[radial-gradient(circle_at_45%_28%,rgba(255,255,255,0.95),rgba(199,210,254,0.75)_22%,rgba(48,69,128,0.95)_72%)] shadow-[0_0_90px_rgba(59,130,246,0.28)] border border-white/20" />
+                  <div className="absolute inset-x-1/2 top-36 h-6 w-12 -translate-x-1/2 rounded-full bg-[#cfe2ff]/80 shadow-[0_0_20px_rgba(191,219,254,0.4)]" />
+
+                  <div className="absolute inset-x-1/2 top-38 h-28 w-52 -translate-x-1/2 rounded-[2rem] bg-[linear-gradient(180deg,rgba(46,65,125,0.95),rgba(11,16,32,0.98))] border border-white/12 shadow-[0_20px_40px_-20px_rgba(15,23,42,0.9)]" />
+                  <div className="absolute inset-x-1/2 top-52 h-44 w-72 -translate-x-1/2 rounded-[3rem] bg-[linear-gradient(180deg,rgba(79,102,194,0.85),rgba(10,14,28,0.98))] border border-white/10 shadow-[0_40px_80px_-25px_rgba(37,99,235,0.35)]" />
+                  <div className="absolute inset-x-1/2 top-[13.5rem] h-28 w-[18rem] -translate-x-1/2 rounded-[2rem] bg-[linear-gradient(180deg,rgba(28,41,82,0.92),rgba(5,9,20,0.98))] border border-white/10 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.8)]" />
+
+                  <div className="absolute inset-x-1/2 top-[5.1rem] h-18 w-40 -translate-x-1/2 rounded-full bg-white/5 blur-2xl" />
+                  <div className="absolute inset-x-1/2 top-28 h-24 w-52 -translate-x-1/2 rounded-[1.75rem] bg-white/5 blur-2xl" />
+
+                  <motion.div
+                    variants={floatMotion}
+                    animate="animate"
+                    className="absolute left-0 top-[7rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                  >
+                    <p className="text-xs text-white/55">Motion systems</p>
+                    <p className="text-sm font-medium text-white">Cinematic layering</p>
+                  </motion.div>
+                  <motion.div
+                    variants={floatMotion}
+                    animate="animate"
+                    className="absolute right-0 top-[9rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                    style={{ animationDelay: '1s' }}
+                  >
+                    <p className="text-xs text-white/55">3D depth</p>
+                    <p className="text-sm font-medium text-white">Glass / glow / orbit</p>
+                  </motion.div>
+                  <motion.div
+                    variants={floatMotion}
+                    animate="animate"
+                    className="absolute left-8 bottom-[4rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                    style={{ animationDelay: '0.6s' }}
+                  >
+                    <p className="text-xs text-white/55">Shader mood</p>
+                    <p className="text-sm font-medium text-white">Pulse + bloom</p>
+                  </motion.div>
+                  <motion.div
+                    variants={floatMotion}
+                    animate="animate"
+                    className="absolute right-6 bottom-[5rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                    style={{ animationDelay: '1.4s' }}
+                  >
+                    <p className="text-xs text-white/55">Avatar core</p>
+                    <p className="text-sm font-medium text-white">Digital body scene</p>
+                  </motion.div>
+                </motion.div>
+              </div>
+
+              <div className="absolute bottom-8 left-6 right-6 grid gap-4 sm:grid-cols-2">
+                {profile.stats.map((stat, index) => (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.45, delay: 0.18 + index * 0.08 }}
+                    className="rounded-2xl border border-white/10 bg-white/10 p-4 shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10 backdrop-blur-md"
+                  >
+                    <p className="text-3xl font-bold gradient-text">{stat.value}</p>
+                    <p className="mt-2 text-sm text-white/65">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="absolute inset-x-0 bottom-[6.8rem] px-6">
+                <div className="rounded-full border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-md flex items-center justify-between text-xs sm:text-sm text-white/75">
+                  <span className="font-mono tracking-[0.3em]">NOW PLAYING</span>
+                  <span>Scroll-driven motion • layered glass • cinematic lighting</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-      
+
       <a
         href="#about"
         className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center text-sm text-muted-foreground hover:text-primary transition-colors"
