@@ -3,7 +3,7 @@ import { ArrowDown, Download, Github, Mail, Sparkles } from 'lucide-react';
 import { profile } from '@/data/profile';
 
 const riseUp = {
-  initial: { opacity: 0, y: 28, filter: 'blur(8px)' },
+  initial: { opacity: 0, y: 24, filter: 'blur(8px)' },
   animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
 };
 
@@ -15,7 +15,7 @@ const panelMotion = {
 const floatMotion = {
   animate: {
     y: [0, -10, 0],
-    rotate: [0, 0.8, 0],
+    rotate: [0, 0.6, 0],
     transition: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
   },
 };
@@ -24,30 +24,30 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden"
+      className="relative min-h-screen flex items-start lg:items-center justify-center overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-32 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-primary/15 blur-[120px]" />
-        <div className="absolute top-24 -left-24 h-80 w-80 rounded-full bg-accent/20 blur-[110px]" />
-        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-cyan-400/10 blur-[120px]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.35)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.35)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.18),transparent_42%),radial-gradient(circle_at_bottom_right,hsl(var(--accent)/0.12),transparent_35%)]" />
+        <div className="absolute -top-32 left-1/2 h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-primary/18 blur-[120px]" />
+        <div className="absolute top-20 -left-24 h-80 w-80 rounded-full bg-accent/22 blur-[110px]" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-cyan-400/12 blur-[120px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,hsl(var(--border)/0.28)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.28)_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-35" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.16),transparent_40%),radial-gradient(circle_at_bottom_right,hsl(var(--accent)/0.12),transparent_34%)]" />
       </div>
 
       <div className="container mx-auto relative z-10">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] px-4 sm:px-6 lg:px-8">
+        <div className="grid items-start sm:items-center gap-10 sm:grid-cols-[0.95fr_1.05fr] lg:grid-cols-[0.95fr_1.05fr] px-4 sm:px-6 lg:px-8">
           <motion.div
             variants={panelMotion}
             initial="initial"
             animate="animate"
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="relative panel-3d tilt-card rounded-[2.5rem] border border-border/60 bg-background/88 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl shadow-black/5"
+            transition={{ duration: 0.95, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="order-2 sm:order-1 relative panel-3d tilt-card rounded-[2.5rem] border border-border/60 bg-background/88 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl shadow-black/5"
           >
             <motion.div
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.7, delay: 0.05 }}
+              transition={{ duration: 0.7, delay: 0.03 }}
               className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-primary/20 bg-background/60 backdrop-blur-md text-sm font-medium text-primary shadow-lg shadow-primary/5"
             >
               <Sparkles className="h-4 w-4" />
@@ -58,7 +58,7 @@ const Hero = () => {
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.75, delay: 0.12 }}
+              transition={{ duration: 0.75, delay: 0.1 }}
               className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-balance"
             >
               <span className="block text-muted-foreground font-medium text-xl sm:text-2xl mb-4">
@@ -72,7 +72,7 @@ const Hero = () => {
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.75, delay: 0.18 }}
+              transition={{ duration: 0.75, delay: 0.16 }}
               className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-8"
             >
               {profile.headline}
@@ -82,8 +82,8 @@ const Hero = () => {
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.75, delay: 0.24 }}
-              className="text-base sm:text-lg text-muted-foreground/90 max-w-2xl leading-relaxed mb-10"
+              transition={{ duration: 0.75, delay: 0.22 }}
+              className="hidden sm:block text-base sm:text-lg text-muted-foreground/90 max-w-2xl leading-relaxed mb-10"
             >
               {profile.summary}
             </motion.p>
@@ -92,7 +92,7 @@ const Hero = () => {
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.75, delay: 0.3 }}
+              transition={{ duration: 0.75, delay: 0.28 }}
               className="flex flex-wrap gap-4"
             >
               <a
@@ -125,7 +125,7 @@ const Hero = () => {
               variants={riseUp}
               initial="initial"
               animate="animate"
-              transition={{ duration: 0.75, delay: 0.36 }}
+              transition={{ duration: 0.75, delay: 0.34 }}
               className="mt-8 flex flex-wrap items-center gap-3 text-sm text-muted-foreground"
             >
               <a href={profile.contact.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-4 py-2 backdrop-blur-md hover:text-foreground transition-colors">
@@ -142,111 +142,135 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             variants={panelMotion}
             initial="initial"
             animate="animate"
-            transition={{ duration: 0.95, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="relative min-h-[700px] lg:min-h-[720px]"
+            transition={{ duration: 1, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="order-1 sm:order-2 relative panel-3d tilt-card rounded-[2.5rem] border border-white/10 text-white backdrop-blur-2xl shadow-2xl shadow-primary/25 overflow-hidden"
+            style={{
+              background:
+                'radial-gradient(circle at top, rgba(74, 115, 255, 0.34), rgba(5, 10, 22, 0.98) 55%)',
+              minHeight: '420px',
+              height: 'clamp(420px, 48vw, 760px)',
+            }}
           >
-            <div className="absolute -inset-6 rounded-[2.75rem] bg-gradient-to-br from-primary/15 via-transparent to-accent/15 blur-3xl" />
-            <div
-              className="relative h-full rounded-[2.5rem] border border-white/10 text-white backdrop-blur-2xl shadow-2xl shadow-primary/20 overflow-hidden panel-3d tilt-card"
-              style={{
-                background:
-                  'radial-gradient(circle at top, rgba(74, 115, 255, 0.3), rgba(8, 15, 28, 0.98) 48%)',
-              }}
+            <div className="absolute inset-0 mesh-overlay opacity-25" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(96,165,250,0.28),transparent_28%),radial-gradient(circle_at_80%_75%,rgba(168,85,247,0.2),transparent_24%)]" />
+            <div className="absolute inset-0 scan-lines opacity-18" />
+            <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.12),transparent_20%,transparent_80%,rgba(255,255,255,0.06))] opacity-50" />
+
+            <motion.div
+              initial={{ opacity: 0, x: -12, y: -8 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.12 }}
+              className="absolute left-5 sm:left-8 top-5 sm:top-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/12 px-4 py-2 text-xs font-medium text-white/85 backdrop-blur-md"
             >
-              <div className="absolute inset-0 mesh-overlay opacity-20" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(96,165,250,0.3),transparent_28%),radial-gradient(circle_at_20%_20%,rgba(129,140,248,0.2),transparent_22%),radial-gradient(circle_at_80%_78%,rgba(96,165,250,0.14),transparent_22%)]" />
-              <div className="absolute inset-0 scan-lines opacity-10" />
+              <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)]" />
+              live avatar render
+            </motion.div>
 
-              <div className="absolute left-10 top-10 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-medium text-white/80 backdrop-blur-md">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)]" />
-                live avatar render
-              </div>
+            <motion.div
+              initial={{ opacity: 0, x: 12, y: -8 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.16 }}
+              className="absolute right-5 sm:right-8 top-5 sm:top-8 rounded-2xl border border-white/10 bg-white/12 px-3 py-2 text-xs font-mono text-white/85 backdrop-blur-md"
+            >
+              UI / UX / Web3
+            </motion.div>
 
-              <div className="absolute right-10 top-10 rounded-2xl border border-white/10 bg-white/10 px-3 py-2 text-xs font-mono text-white/80 backdrop-blur-md">
-                UI / UX / Web3
-              </div>
+            <div className="absolute inset-0 flex items-center justify-center px-5 sm:px-8">
+              <motion.div
+                animate={{ y: [0, -12, 0], rotateZ: [0, -0.8, 0], scale: [1, 1.015, 1] }}
+                transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="relative flex h-[340px] sm:h-[420px] lg:h-[680px] w-full max-w-[560px] lg:max-w-[700px] items-center justify-center"
+              >
+                <div className="absolute left-1/2 top-2 h-[300px] w-[300px] sm:h-[440px] sm:w-[440px] -translate-x-1/2 rounded-full bg-primary/30 blur-[120px]" />
+                <div className="absolute left-1/2 top-10 h-[210px] w-[210px] sm:h-[320px] sm:w-[320px] -translate-x-1/2 rounded-full bg-accent/24 blur-[110px]" />
+                <div className="absolute inset-x-[18%] bottom-8 h-10 rounded-full bg-black/45 blur-2xl" />
 
-              <div className="absolute inset-x-0 top-24 flex justify-center">
                 <motion.div
-                  animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative h-[440px] w-[360px]"
+                  animate={{ scale: [1, 1.03, 1], opacity: [0.98, 1, 0.98] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative flex h-full w-full items-center justify-center rounded-[2rem] border border-white/10 bg-white/6 p-3 sm:p-5 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.8)] backdrop-blur-sm"
                 >
-                  <div className="absolute inset-x-1/2 top-4 h-44 w-36 -translate-x-1/2 rounded-[2.2rem] bg-[radial-gradient(circle_at_45%_28%,rgba(255,255,255,0.95),rgba(199,210,254,0.75)_22%,rgba(48,69,128,0.95)_72%)] shadow-[0_0_90px_rgba(59,130,246,0.28)] border border-white/20" />
-                  <div className="absolute inset-x-1/2 top-36 h-6 w-12 -translate-x-1/2 rounded-full bg-[#cfe2ff]/80 shadow-[0_0_20px_rgba(191,219,254,0.4)]" />
-
-                  <div className="absolute inset-x-1/2 top-38 h-28 w-52 -translate-x-1/2 rounded-[2rem] bg-[linear-gradient(180deg,rgba(46,65,125,0.95),rgba(11,16,32,0.98))] border border-white/12 shadow-[0_20px_40px_-20px_rgba(15,23,42,0.9)]" />
-                  <div className="absolute inset-x-1/2 top-52 h-44 w-72 -translate-x-1/2 rounded-[3rem] bg-[linear-gradient(180deg,rgba(79,102,194,0.85),rgba(10,14,28,0.98))] border border-white/10 shadow-[0_40px_80px_-25px_rgba(37,99,235,0.35)]" />
-                  <div className="absolute inset-x-1/2 top-[13.5rem] h-28 w-[18rem] -translate-x-1/2 rounded-[2rem] bg-[linear-gradient(180deg,rgba(28,41,82,0.92),rgba(5,9,20,0.98))] border border-white/10 shadow-[0_30px_60px_-25px_rgba(0,0,0,0.8)]" />
-
-                  <div className="absolute inset-x-1/2 top-[5.1rem] h-18 w-40 -translate-x-1/2 rounded-full bg-white/5 blur-2xl" />
-                  <div className="absolute inset-x-1/2 top-28 h-24 w-52 -translate-x-1/2 rounded-[1.75rem] bg-white/5 blur-2xl" />
-
-                  <motion.div
-                    variants={floatMotion}
-                    animate="animate"
-                    className="absolute left-0 top-[7rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
-                  >
-                    <p className="text-xs text-white/55">Motion systems</p>
-                    <p className="text-sm font-medium text-white">Cinematic layering</p>
-                  </motion.div>
-                  <motion.div
-                    variants={floatMotion}
-                    animate="animate"
-                    className="absolute right-0 top-[9rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
-                    style={{ animationDelay: '1s' }}
-                  >
-                    <p className="text-xs text-white/55">3D depth</p>
-                    <p className="text-sm font-medium text-white">Glass / glow / orbit</p>
-                  </motion.div>
-                  <motion.div
-                    variants={floatMotion}
-                    animate="animate"
-                    className="absolute left-8 bottom-[4rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
-                    style={{ animationDelay: '0.6s' }}
-                  >
-                    <p className="text-xs text-white/55">Shader mood</p>
-                    <p className="text-sm font-medium text-white">Pulse + bloom</p>
-                  </motion.div>
-                  <motion.div
-                    variants={floatMotion}
-                    animate="animate"
-                    className="absolute right-6 bottom-[5rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
-                    style={{ animationDelay: '1.4s' }}
-                  >
-                    <p className="text-xs text-white/55">Avatar core</p>
-                    <p className="text-sm font-medium text-white">Digital body scene</p>
-                  </motion.div>
+                  <div className="absolute inset-0 rounded-[2rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.12),transparent_28%,transparent_72%,rgba(255,255,255,0.08))] opacity-60" />
+                  <div className="absolute inset-0 rounded-[2rem] ring-1 ring-inset ring-white/10" />
+                  <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),rgba(4,8,18,0.92))]">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(96,165,250,0.28),transparent_28%),radial-gradient(circle_at_80%_75%,rgba(168,85,247,0.22),transparent_24%)]" />
+                    <div className="absolute inset-0 scan-lines opacity-20" />
+                      <motion.img
+                        src="/avatar.webp"
+                        alt="3D programmer avatar"
+                        initial={{ opacity: 0, y: 16, scale: 0.94 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.8, delay: 0.12 }}
+                      className="relative mx-auto h-[86%] sm:h-[92%] w-auto max-w-none select-none object-contain drop-shadow-[0_32px_52px_rgba(0,0,0,0.55)]"
+                      style={{ filter: 'drop-shadow(0 0 44px rgba(96,165,250,0.28))' }}
+                    />
+                  </div>
                 </motion.div>
-              </div>
 
-              <div className="absolute bottom-8 left-6 right-6 grid gap-4 sm:grid-cols-2">
-                {profile.stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.18 + index * 0.08 }}
-                    className="rounded-2xl border border-white/10 bg-white/10 p-4 shadow-lg shadow-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10 backdrop-blur-md"
-                  >
-                    <p className="text-3xl font-bold gradient-text">{stat.value}</p>
-                    <p className="mt-2 text-sm text-white/65">{stat.label}</p>
-                  </motion.div>
-                ))}
-              </div>
+                <motion.div
+                  variants={floatMotion}
+                  animate="animate"
+                  className="absolute left-0 top-[6.5rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                >
+                  <p className="text-xs text-white/55">Motion systems</p>
+                  <p className="text-sm font-medium text-white">Cinematic layering</p>
+                </motion.div>
+                <motion.div
+                  variants={floatMotion}
+                  animate="animate"
+                  className="absolute right-0 top-[8.25rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                  style={{ animationDelay: '1s' }}
+                >
+                  <p className="text-xs text-white/55">3D depth</p>
+                  <p className="text-sm font-medium text-white">Glass / glow / orbit</p>
+                </motion.div>
+                <motion.div
+                  variants={floatMotion}
+                  animate="animate"
+                  className="absolute left-6 bottom-[4.5rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                  style={{ animationDelay: '0.6s' }}
+                >
+                  <p className="text-xs text-white/55">Shader mood</p>
+                  <p className="text-sm font-medium text-white">Pulse + bloom</p>
+                </motion.div>
+                <motion.div
+                  variants={floatMotion}
+                  animate="animate"
+                  className="absolute right-4 bottom-[4.9rem] rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl shadow-black/20 backdrop-blur-md"
+                  style={{ animationDelay: '1.4s' }}
+                >
+                  <p className="text-xs text-white/55">Avatar core</p>
+                  <p className="text-sm font-medium text-white">Digital body scene</p>
+                </motion.div>
+              </motion.div>
+            </div>
 
-              <div className="absolute inset-x-0 bottom-[6.8rem] px-6">
-                <div className="rounded-full border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-md flex items-center justify-between text-xs sm:text-sm text-white/75">
-                  <span className="font-mono tracking-[0.3em]">NOW PLAYING</span>
-                  <span>Scroll-driven motion • layered glass • cinematic lighting</span>
-                </div>
+            <div className="absolute bottom-5 left-5 right-5 hidden gap-3 lg:grid sm:grid-cols-2">
+              {profile.stats.map((stat, index) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, delay: 0.18 + index * 0.08 }}
+                  className="rounded-2xl border border-white/10 bg-white/12 p-4 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10 backdrop-blur-md"
+                >
+                  <p className="text-3xl font-bold gradient-text">{stat.value}</p>
+                  <p className="mt-2 text-sm text-white/65">{stat.label}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="absolute inset-x-0 bottom-[6.1rem] px-5 hidden lg:block">
+              <div className="rounded-full border border-white/10 bg-white/8 px-5 py-3 backdrop-blur-md flex items-center justify-between text-xs sm:text-sm text-white/80">
+                <span className="font-mono tracking-[0.3em]">NOW PLAYING</span>
+                <span>Scroll-driven motion • layered glass • cinematic lighting</span>
               </div>
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 
