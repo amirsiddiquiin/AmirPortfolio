@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Github, Send, Linkedin, Globe } from "lucide-react";
+import { Mail, MapPin, Phone, Github, Send, Linkedin, Globe, MessageCircle } from "lucide-react";
 import { profile } from "@/data/profile";
 
 const contactLinks = [
@@ -8,12 +8,6 @@ const contactLinks = [
     label: "Email",
     value: profile.contact.email,
     href: `mailto:${profile.contact.email}`,
-  },
-  {
-    icon: <Phone className="h-5 w-5" />,
-    label: "Phone",
-    value: profile.contact.phone,
-    href: "tel:+918791986707",
   },
   {
     icon: <Github className="h-5 w-5" />,
@@ -30,13 +24,6 @@ const contactLinks = [
     external: true,
   },
   {
-    icon: <Globe className="h-5 w-5" />,
-    label: "Website",
-    value: "amirsiddiqui.in",
-    href: profile.contact.website,
-    external: true,
-  },
-  {
     icon: <MapPin className="h-5 w-5" />,
     label: "Location",
     value: profile.contact.location,
@@ -45,86 +32,122 @@ const contactLinks = [
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-24 bg-secondary/30">
+    <section id="contact" className="py-24 bg-secondary/20 scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-sm font-mono text-primary mb-3 fade-in">
-              // CONTACT
-            </p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight fade-in delay-100">
-              Let's connect
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto fade-in delay-200">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Contact
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-bold mb-6 tracking-tight"
+            >
+              Let's <span className="gradient-text">Connect</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            >
               Open to senior frontend roles, product partnerships, and collaborations where good taste matters as much as good code.
-            </p>
+            </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.9fr] gap-6">
-            <div className="space-y-3 fade-in">
-              {contactLinks.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="tilt-card flex items-center gap-4 rounded-[1.5rem] bg-card/85 border border-border/60 p-4 shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300"
-                  whileHover={{ y: -6, rotateX: 3, rotateY: index % 2 === 0 ? -3 : 3 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 20 }}
-                >
-                  <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
-                    {item.icon}
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground mb-0.5">
-                      {item.label}
-                    </p>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="text-sm font-medium hover:text-primary transition-colors truncate block"
-                        {...(item.external
-                          ? { target: "_blank", rel: "noopener noreferrer" }
-                          : {})}
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="text-sm font-medium">{item.value}</p>
-                    )}
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Contact Info */}
             <motion.div
-              whileHover={{ y: -8, rotateX: 3, rotateY: -3 }}
-              transition={{ type: 'spring', stiffness: 220, damping: 20 }}
-              className="tilt-card rounded-[1.75rem] bg-background/80 border border-border/60 p-6 shadow-2xl shadow-primary/10 fade-in delay-200 panel-3d"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="space-y-6"
             >
-              <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
-                Fast contact route
-              </p>
-              <h3 className="text-2xl font-bold mb-3">{profile.name}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                If you want a frontend engineer who cares about product sense, motion, accessibility, and getting Web3 UI right, let’s talk.
-              </p>
-              <form className="space-y-3">
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                  placeholder="Your name"
-                />
-                <input
-                  type="email"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                  placeholder="Your email"
-                />
-                <textarea
-                  rows={3}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
-                  placeholder="Your message"
-                />
+              <div>
+                <h3 className="text-2xl font-bold mb-4">Get in Touch</h3>
+                <p className="text-muted-foreground leading-relaxed mb-8">
+                  Have a project in mind or want to discuss opportunities? Feel free to reach out through any of these channels.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {contactLinks.map((item, index) => (
+                  <motion.a
+                    key={index}
+                    href={item.href || '#'}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                    whileHover={{ x: 4 }}
+                    className="flex items-center gap-4 p-4 rounded-xl border border-border/60 bg-card/80 hover:border-primary/30 transition-all duration-300"
+                    {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 text-primary">
+                      {item.icon}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm text-muted-foreground mb-1">{item.label}</p>
+                      <p className="font-medium truncate">{item.value}</p>
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="rounded-2xl border border-border/60 bg-card/80 p-8"
+            >
+              <h3 className="text-2xl font-bold mb-6">Send a Message</h3>
+              <form className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Name</label>
+                    <input
+                      type="text"
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email</label>
+                    <input
+                      type="email"
+                      className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Subject</label>
+                  <input
+                    type="text"
+                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                    placeholder="What's this about?"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">Message</label>
+                  <textarea
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                    placeholder="Your message..."
+                  />
+                </div>
                 <button
                   type="submit"
-                  className="w-full px-4 py-3 bg-primary text-primary-foreground font-medium rounded-xl text-sm hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
+                  className="w-full px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-lg hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2"
                 >
                   <Send className="h-4 w-4" />
                   Send Message

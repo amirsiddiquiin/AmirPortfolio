@@ -1,68 +1,96 @@
 
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Sparkles, ExternalLink, Github, Globe } from 'lucide-react';
 import { projects } from '@/data/profile';
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="py-24 bg-secondary/20 scroll-mt-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-sm font-mono text-primary mb-3 fade-in">// PROJECTS</p>
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight fade-in delay-100">
-              Selected builds
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto fade-in delay-200">
-              A few of the products and hackathon builds that best capture the way I like to work: clear systems, strong motion, and useful details.
-            </p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4"
+            >
+              <Sparkles className="h-4 w-4" />
+              Projects
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-4xl md:text-5xl font-bold mb-6 tracking-tight"
+            >
+              Featured <span className="gradient-text">Work</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg text-muted-foreground max-w-2xl mx-auto"
+            >
+              A selection of projects that showcase my expertise in building production-grade Web3 applications and modern frontend systems.
+            </motion.p>
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             {projects.map((project, index) => (
               <motion.div
                 key={index}
-                className="group tilt-card rounded-[1.75rem] border border-border/60 bg-card/80 p-6 shadow-xl shadow-black/5 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 fade-in"
-                style={{ animationDelay: `${index * 200}ms` }}
-                whileHover={{ y: -10, rotateX: 4, rotateY: index % 2 === 0 ? -4 : 4 }}
-                transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
+                whileHover={{ y: -8, scale: 1.02 }}
+                className="group rounded-2xl border border-border/60 bg-card/80 overflow-hidden hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10"
               >
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <span className="px-3 py-1.5 text-xs font-mono font-medium rounded-full bg-primary/10 text-primary">
-                    {project.tag}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{project.period}</span>
-                </div>
-
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
-                <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{project.description}</p>
-
-                <ul className="space-y-3 mb-6">
-                  {project.bullets.map((achievement, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-muted-foreground">
-                      <span className="mt-2 h-2 w-2 rounded-full bg-primary flex-shrink-0" />
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex flex-wrap gap-2 pt-4 border-t border-border/40">
-                  {project.stack.map((tech, i) => (
-                    <span 
-                      key={i}
-                      className="px-3 py-1.5 text-xs font-mono rounded-full bg-secondary text-secondary-foreground"
-                    >
-                      {tech}
+                <div className="p-6">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <span className="px-3 py-1.5 text-xs font-mono font-medium rounded-full bg-primary/10 text-primary">
+                      {project.tag}
                     </span>
-                  ))}
-                </div>
+                    <span className="text-xs text-muted-foreground">{project.period}</span>
+                  </div>
 
-                <div className="mt-5 flex items-center justify-between text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-primary" />
-                    production-grade frontend
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 opacity-70" />
+                  <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{project.description}</p>
+
+                  <ul className="space-y-2 mb-5">
+                    {project.bullets.slice(0, 3).map((achievement, i) => (
+                      <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                        {achievement}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="flex flex-wrap gap-2 mb-5">
+                    {project.stack.slice(0, 4).map((tech, i) => (
+                      <span 
+                        key={i}
+                        className="px-2 py-1 text-xs font-mono font-medium rounded-md border border-primary/20 bg-primary/5 text-primary"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-border/40">
+                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                      <Sparkles className="h-3 w-3 text-primary" />
+                      {project.tag}
+                    </span>
+                    <div className="flex gap-2">
+                      <button className="p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                        <Github className="h-4 w-4" />
+                      </button>
+                      <button className="p-2 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors">
+                        <Globe className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ))}
