@@ -106,10 +106,10 @@ const Skills = () => {
             
             <div className="grid md:grid-cols-2 gap-8">
               {[
-                { label: 'Frontend Development', value: 95, icon: Code },
+                { label: 'Frontend Engineering', value: 95, icon: Code },
                 { label: 'Web3 & Blockchain', value: 90, icon: Blocks },
-                { label: 'UI/UX Design', value: 85, icon: Award },
-                { label: 'Backend Systems', value: 75, icon: Database },
+                { label: 'Backend & APIs', value: 85, icon: Database },
+                { label: 'AI-Assisted Workflows', value: 80, icon: Award },
               ].map((skill, index) => (
                 <motion.div 
                   key={index} 

@@ -10,10 +10,23 @@ const contactLinks = [
     href: `mailto:${profile.contact.email}`,
   },
   {
+    icon: <Phone className="h-5 w-5" />,
+    label: "Phone",
+    value: profile.contact.phone,
+    href: `tel:${profile.contact.phone.replace(/\s/g, '')}`,
+  },
+  {
     icon: <Github className="h-5 w-5" />,
     label: "GitHub",
     value: "github.com/amirsiddiquiin",
     href: profile.contact.github,
+    external: true,
+  },
+  {
+    icon: <Globe className="h-5 w-5" />,
+    label: "Website",
+    value: "amirsiddiqui.in",
+    href: profile.contact.website,
     external: true,
   },
   {
@@ -59,7 +72,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-2xl mx-auto"
             >
-              Open to senior frontend roles, product partnerships, and collaborations where good taste matters as much as good code.
+              Open to senior full stack roles, product partnerships, and high-ownership engineering work across Web3 and AI-assisted products.
             </motion.p>
           </div>
 

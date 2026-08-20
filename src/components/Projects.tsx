@@ -32,7 +32,7 @@ const Projects = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-2xl mx-auto"
             >
-              From Web3 protocols to marketing websites, each project represents a commitment to clean code and exceptional user experiences.
+              Production Web3 systems and full-stack products built with resilient integrations, clean architecture, and measurable outcomes.
             </motion.p>
           </div>
 

@@ -13,7 +13,7 @@ const Footer = () => {
             <div className="lg:col-span-2">
               <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">Amir Siddiqui</h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6 max-w-md">
-                Senior Frontend Engineer specializing in Web3, DeFi, and production-grade UI systems. Building the future of decentralized interfaces.
+                Senior Full Stack Engineer specializing in production web apps, Web3/DeFi integrations, and AI-assisted workflows.
               </p>
               <div className="flex gap-3">
                 <a

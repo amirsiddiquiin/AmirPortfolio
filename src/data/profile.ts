@@ -1,11 +1,11 @@
 export const profile = {
   name: "Amir Siddiqui",
-  title: "Senior Frontend Engineer",
+  title: "Senior Full Stack Engineer",
   headline:
-    "I build polished, production-grade frontend systems for Web3, DeFi, and data-heavy products.",
+    "I build production web apps across the full stack, with deep expertise in Web3, DeFi, and AI-assisted workflows.",
   summary:
-    "Senior Frontend Engineer with 4+ years of experience shipping high-performance Web3 and DeFi interfaces across multi-chain products. Strong in React, TypeScript, Tailwind CSS, shadcn/ui, and motion-led product design, with a track record of turning complex protocol logic into clean, conversion-friendly experiences.",
-  availability: "Open to senior frontend roles, product-minded teams, and high-ownership UI work.",
+    "Senior Full Stack Engineer with 5+ years building production web apps in React, Next.js, TypeScript, and Node.js/Express. I own features end-to-end - architecture, API integration, UI delivery, performance, and production observability - with deep expertise in Web3/DeFi integrations and emerging AI-assisted workflows.",
+  availability: "Open to senior full stack roles, product-minded teams, and high-ownership engineering work.",
   contact: {
     email: "amirsiddiqui.in@gmail.com",
     phone: "+91 8791986707",
@@ -16,18 +16,18 @@ export const profile = {
     resume: "/amir_resume.pdf",
   },
   stats: [
-    { label: "Years of experience", value: "4+" },
+    { label: "Years of experience", value: "5+" },
     { label: "Major product releases", value: "3+" },
     { label: "Winning hackathon project", value: "EthIndia 2024" },
-    { label: "Recognitions earned", value: "4" },
+    { label: "Recognitions earned", value: "5" },
   ],
 };
 
 export const highlights = [
   {
-    title: "Frontend systems",
+    title: "End-to-end engineering",
     description:
-      "I design responsive, scalable interfaces with a strong focus on component architecture, state management, and real-world performance.",
+      "I own production features across architecture, APIs, interfaces, performance, and observability using React, Next.js, TypeScript, and Node.js.",
   },
   {
     title: "Web3 product thinking",
@@ -35,9 +35,9 @@ export const highlights = [
       "I translate smart-contract workflows into clear user journeys with wallet integrations, transaction states, and reliable on-chain feedback.",
   },
   {
-    title: "Design polish",
+    title: "AI-assisted workflows",
     description:
-      "I care about the finish line: spacing, motion, hierarchy, micro-interactions, and a visual system that feels expensive without feeling loud.",
+      "I use the OpenAI SDK and structured prompt engineering to turn machine-parseable strategy outputs into reliable product automation.",
   },
 ];
 
@@ -45,17 +45,16 @@ export const experience = [
   {
     company: "Alloc8",
     location: "Remote, United States",
-    role: "Senior Frontend Engineer",
+    role: "Senior Full Stack Engineer",
     period: "03/2024 - Present",
     summary:
-      "Built the frontend layer for an AI-powered DeFi liquidity automation platform.",
+      "Own end-to-end DeFi workflows across Next.js, external APIs, and smart contracts.",
     bullets: [
-      "Architected and shipped the end-to-end swap interface on top of the Uniswap V3 SDK, covering price quoting, slippage tolerance, gas estimation, and transaction confirmation flows.",
-      "Designed and implemented ZapIn and ZapOut functionality to abstract multi-step smart contract interactions into a single-click experience.",
-      "Built the auto-rebalancing dashboard with real-time tick data, fee tier analytics, and position health metrics.",
-      "Developed a rewards and claim flow that aggregates accrued protocol fees into a single transaction with live balance updates and resilient retry handling.",
-      "Used the OpenAI SDK and structured prompt engineering to power AI-assisted automation features for strategy generation.",
-      "Served as the sole frontend engineer across 3 major product releases and reduced onboarding friction by 60% through redesigned flows.",
+      "Own quoting, slippage, gas estimation, transaction execution, and confirmation across EVM networks.",
+      "Designed ZapIn/ZapOut and automated liquidity workflows that coordinate multi-step contract interactions behind a single user action, with resilient error handling and live state sync.",
+      "Built real-time position monitoring and auto-rebalancing using tick data, fee analytics, and health-signal alerting for out-of-range liquidity positions.",
+      "Integrated the OpenAI SDK with structured prompting to generate machine-parseable strategy outputs powering agent-driven automation in production.",
+      "Led 3 major product releases and standardized the UI platform on Tailwind CSS and Shadcn/UI, cutting onboarding friction by 60%.",
     ],
     stack: [
       "React",
@@ -63,35 +62,34 @@ export const experience = [
       "Tailwind CSS",
       "Shadcn/UI",
       "Uniswap V3 SDK",
+      "Node.js",
       "OpenAI SDK",
     ],
   },
   {
     company: "MagpieXYZ",
     location: "Remote, Tortola, British Virgin Islands",
-    role: "Frontend Engineer",
+    role: "Full Stack Engineer",
     period: "03/2022 - 03/2024",
     summary:
-      "Built frontend systems for a data-intensive cross-chain dashboard used by thousands of monthly active users.",
+      "Built a data-intensive cross-chain web app serving 5,000+ monthly active users.",
     bullets: [
-      "Architected the frontend from the ground up using React.js, Next.js, and Redux Toolkit with a modular, scalable component structure.",
-      "Engineered resilient data layers for REST and GraphQL APIs, including optimistic updates, granular error boundaries, and skeleton loading states.",
-      "Collaborated on a complete landing page redesign that improved conversion by 15% within 60 days.",
-      "Enforced WCAG accessibility standards and cross-browser compatibility across Chrome, Firefox, Safari, and Edge.",
+      "Built the product with React, Next.js, TypeScript, Redux Toolkit, REST, and GraphQL.",
+      "Engineered client-to-service data flows across microservices with optimistic updates, granular error handling, and fault-tolerant API behavior.",
+      "Partnered with product and design on a conversion-focused redesign, lifting conversion 15% in 60 days while strengthening Core Web Vitals and accessibility.",
     ],
     stack: ["React", "Next.js", "Redux Toolkit", "GraphQL", "WCAG", "Vercel"],
   },
   {
     company: "PolkaBridge",
     location: "Remote, Singapore",
-    role: "Frontend Engineer",
+    role: "Full Stack / Software Engineer",
     period: "06/2022 - 02/2023",
     summary:
-      "Delivered responsive UI for a high-traffic DeFi platform with real-time on-chain dashboards.",
+      "Delivered a high-traffic DeFi app supporting 50,000+ concurrent users.",
     bullets: [
-      "Built pixel-perfect frontend experiences for staking, IDO, farming, and NFT marketplace flows.",
-      "Reduced JavaScript bundle size by 40% through code splitting, dynamic imports, and tree shaking.",
-      "Implemented frontend security practices including input sanitization, CSP usage, and safe handling of wallet data.",
+      "Built real-time on-chain dashboards, WebSocket feeds, and wallet integrations.",
+      "Cut JavaScript bundle size by 40% via code splitting, dynamic imports, and tree shaking; hardened the app with input sanitization and CSP headers.",
     ],
     stack: ["React", "Redux", "Web3", "Ethers.js", "Webpack", "Security"],
   },
@@ -105,9 +103,8 @@ export const projects = [
     description:
       "A full-stack dApp built with React.js, Next.js, TypeScript, Ethers.js, and Solidity, and shipped to production-quality within the hackathon timeline.",
     bullets: [
-      "Built wallet integration and transaction confirmation flows with real-time on-chain state synchronization.",
-      "Used optimistic UI updates and resilient error handling for failed or reverted transactions.",
-      "Balanced rapid iteration with type safety and a polished, demo-ready user experience.",
+      "Built and shipped a full-stack dApp integrating a Next.js frontend with on-chain smart contracts, wallet flows, and real-time blockchain state sync.",
+      "Delivered a production-ready app within the hackathon timeline with reusable components, type safety, and resilient transaction handling.",
     ],
     stack: ["React", "Next.js", "TypeScript", "Ethers.js", "Solidity"],
   },
@@ -141,7 +138,7 @@ export const projects = [
 
 export const skills = [
   {
-    title: "Languages & Frameworks",
+    title: "Languages & Frontend",
     items: [
       "JavaScript (ES6+)",
       "TypeScript",
@@ -152,59 +149,54 @@ export const skills = [
       "Tailwind CSS",
       "Material UI",
       "Shadcn/UI",
-      "GSAP",
-      "Framer Motion",
+      "Redux Toolkit",
+      "Zustand",
+      "React Query",
     ],
   },
   {
-    title: "State, APIs & Web3",
+    title: "Backend & APIs",
     items: [
-      "Redux Toolkit",
-      "Zustand",
-      "Context API",
-      "React Query",
+      "Node.js",
+      "Express.js",
       "REST APIs",
       "GraphQL",
       "WebSockets",
+      "Authentication Flows",
+    ],
+  },
+  {
+    title: "Web3 & AI",
+    items: [
       "Uniswap V3 SDK",
       "Ethers.js",
       "Wagmi",
       "RainbowKit",
-      "Wallet integrations",
+      "OpenAI SDK",
+      "Prompt Engineering",
     ],
   },
   {
     title: "Performance, Testing & Accessibility",
     items: [
       "Core Web Vitals",
-      "SSR/SSG",
       "Code Splitting",
-      "Lazy Loading",
-      "PWA",
       "WCAG / a11y",
       "Jest",
       "React Testing Library",
-      "Postman",
-      "Tenderly",
     ],
   },
   {
-    title: "Tooling & Infrastructure",
+    title: "Data, Cloud & Tooling",
     items: [
       "Git",
       "GitHub",
-      "Webpack",
-      "Vite",
+      "MongoDB",
       "Vercel",
       "CI/CD",
       "AWS API Gateway",
       "AWS CloudWatch",
-      "Jira",
-      "Figma",
-      "OpenAI SDK",
-      "Prompt Engineering",
-      "Google Analytics",
-      "Mixpanel",
+      "Postman",
     ],
   },
 ];

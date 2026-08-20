@@ -32,7 +32,7 @@ const Experience = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg text-muted-foreground max-w-2xl mx-auto"
             >
-              Building frontend systems for Web3, DeFi, and data-intensive products across innovative companies.
+              Owning full stack systems for Web3, DeFi, AI-assisted workflows, and data-intensive products.
             </motion.p>
           </div>
 

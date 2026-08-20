@@ -24,7 +24,7 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl md:text-5xl font-bold mb-6 tracking-tight"
             >
-              Building the future of <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">Web3 interfaces</span>
+              Building production systems <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">end to end</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -87,9 +87,9 @@ const About = () => {
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-6 border border-primary/20">
                     <Code2 className="h-7 w-7 text-primary" />
                   </div>
-                  <h4 className="text-xl font-bold mb-3">Frontend Architecture</h4>
+                  <h4 className="text-xl font-bold mb-3">Full Stack Architecture</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Building scalable, maintainable frontend systems with React, TypeScript, and modern best practices.
+                    Building scalable web products with React, Next.js, TypeScript, Node.js, Express, and resilient APIs.
                   </p>
                 </div>
               </motion.div>
@@ -123,9 +123,9 @@ const About = () => {
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center mb-6 border border-primary/20">
                     <Sparkles className="h-7 w-7 text-primary" />
                   </div>
-                  <h4 className="text-xl font-bold mb-3">Product Design</h4>
+                  <h4 className="text-xl font-bold mb-3">AI Workflows</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Creating intuitive user experiences that make complex protocols accessible and trustworthy.
+                    Turning structured prompts and OpenAI-powered strategy outputs into reliable product automation.
                   </p>
                 </div>
               </motion.div>
